@@ -88,6 +88,9 @@ const SocialSection = ({ movieId }) => {
     if (isLoading) {
         return <CircularLoader />
     }
+    if (reviews.length <= 0) {
+        return null;
+    }
 
     return (
         <section className="mt-10">
