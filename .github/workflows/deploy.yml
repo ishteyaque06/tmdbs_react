@@ -27,9 +27,12 @@ jobs:
       - run: npm run build
         env:
           VITE_TMDB_API_KEY: ${{ secrets.VITE_TMDB_API_KEY }}
+      
+      # 1. Give the artifact a unique name based on the run attempt
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+          name: github-pages-${{ github.run_attempt }}
 
   deploy:
     needs: build
@@ -38,5 +41,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # 2. Tell deploy-pages to look for that specific attempt's artifact
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
